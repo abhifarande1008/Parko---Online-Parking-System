@@ -55,7 +55,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         setup();
     }, [authUser, authLoading, pathname]);
 
-    if (!isMounted || authLoading) {
+    if (!isMounted || authLoading || authUser === undefined) {
         return <Loading />
     }
 
@@ -126,6 +126,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     } else if (isProtectedURL && !authUser) {
         redirect("/login");
     }
-
-    return <PageNotFound />;
+    
+    return <Loading />
 }

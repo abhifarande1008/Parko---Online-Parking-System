@@ -69,7 +69,7 @@ export function SideBarContent() {
             :
             <TooltipProvider key={path.pathId}>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <SidebarGroup key={path.pathId} className="py-2 px-0 pl-2">
                   <Accordion type="single" className="p-0 w-full" collapsible>
                     <AccordionItem value={path.path} className={`p-0 w-full flex items-center`}>

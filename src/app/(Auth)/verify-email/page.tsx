@@ -8,7 +8,7 @@ import { useAuthContext } from "@/context/auth-context" // Correct import path w
 import { Button } from "@/components/ui/button"
 import { LoaderCircleIcon, LogOut, Moon, SunDim } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import { redirect } from "next/navigation"
 import useLogOut from "@/hooks/use-logout"
@@ -25,7 +25,7 @@ const VerifyEmail = () => {
   const { authUser, loadSession } = useAuthContext()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { triggerLogOut, logoutLoading } = useLogOut();
-
+  const hasSentOtp = useRef(false);
 
   const sendOtp = async () => {
     try {
@@ -55,10 +55,11 @@ const VerifyEmail = () => {
     if (authUser?.emailVerified) {
       return redirect("/home");
     }
-    if (authUser?.email) {
+    if (authUser?.email && !hasSentOtp.current) {
+      hasSentOtp.current = true;
       sendOtp()
     }
-  }, [authUser])
+  }, [authUser?.email])
 
   // Initialize react-hook-form with Zod resolver
   const otpForm = useForm<OtpFormValues>({
